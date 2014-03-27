@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pm.test</groupId>
+		<artifactId>j2ee-test-app</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.pm.test.j2ee</groupId>
+	<artifactId>ear</artifactId>
+	<version>${project.parent.version}</version>
+	<packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.pm.test.j2ee</groupId>
+			<artifactId>services</artifactId>
+			<type>ejb</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.pm.test.j2ee</groupId>
+			<artifactId>web</artifactId>
+			<type>war</type>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- MongoDB & Morphia -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb.morphia</groupId>
+			<artifactId>morphia</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<generateApplicationXml>true</generateApplicationXml>
+					<applicationName>j2ee-test-app</applicationName>
+					<displayName>j2ee-test-app</displayName>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
