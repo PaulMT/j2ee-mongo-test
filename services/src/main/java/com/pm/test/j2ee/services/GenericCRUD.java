@@ -10,7 +10,7 @@ public interface GenericCRUD<T> {
 
 	T update(T entity);
 
-	void delete(T entity);
+	void deleteEntity(T entity);
 
 	Collection<T> getAll();
 
