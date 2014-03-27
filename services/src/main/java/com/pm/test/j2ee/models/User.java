@@ -1,26 +1,37 @@
 package com.pm.test.j2ee.models;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 @Entity("users")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
 	public static final String XML_NS = "http://j2ee.pm.com/user";
 
 	@Id
-	private String uid;
+	@XmlTransient
+	private ObjectId key;
 	private String login;
 	private String password;
 	private String email;
 	private String firstName;
 	private String lastName;
 
+	@XmlElement(name = "uid")
 	public String getUid() {
-		return uid;
+		return key.toString();
 	}
 
 	public void setUid(String uid) {
-		this.uid = uid;
+		this.key = new ObjectId(uid);
 	}
 
 	public String getLogin() {
@@ -69,7 +80,7 @@ public class User {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -95,10 +106,10 @@ public class User {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (uid == null) {
-			if (other.uid != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!uid.equals(other.uid))
+		} else if (!key.equals(other.key))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -120,7 +131,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [uid=" + uid + ", login=" + login + ", email=" + email + ", firstName=" + firstName
+		return "User [uid=" + key + ", login=" + login + ", email=" + email + ", firstName=" + firstName
 				+ ", lastName=" + lastName + "]";
 	}
 }
