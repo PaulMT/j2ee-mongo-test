@@ -6,7 +6,7 @@ public interface GenericCRUD<T> {
 
 	T create(T entity);
 
-	T getById(Long id);
+	T get(String key);
 
 	T update(T entity);
 

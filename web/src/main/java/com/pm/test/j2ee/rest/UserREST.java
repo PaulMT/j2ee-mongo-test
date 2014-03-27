@@ -31,6 +31,19 @@ public class UserREST {
 		return userDAO.create(user);
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> get() {
+		return userDAO.getAll();
+	}
+
+	@GET
+	@Path("/{uid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User get(@PathParam("uid") String uid) {
+		return userDAO.get(uid);
+	}
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,23 +58,10 @@ public class UserREST {
 	}
 
 	@DELETE
-	@Path("/{id}")
-	public void deleteById(@PathParam("id") Long id) {
-		User user = userDAO.getById(id);
+	@Path("/{uid}")
+	public void delete(@PathParam("uid") String uid) {
+		User user = userDAO.get(uid);
 		userDAO.delete(user);
-	}
-
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public User getById(@PathParam("id") Long id) {
-		return userDAO.getById(id);
-	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<User> getAll() {
-		return userDAO.getAll();
 	}
 
 }

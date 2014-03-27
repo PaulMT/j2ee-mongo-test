@@ -1,9 +1,7 @@
 package com.pm.test.j2ee.dao.impl;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -16,10 +14,10 @@ import com.mongodb.MongoClient;
 import com.pm.test.j2ee.services.GenericCRUD;
 
 public class GenericDaoImpl<T> implements GenericCRUD<T> {
-	private Class<? extends T> entityClass;
+	private Class<T> entityClass;
 	private Datastore datastore;
 
-	public GenericDaoImpl(Class<? extends T> entityClass) {
+	public GenericDaoImpl(Class<T> entityClass) {
 		this.entityClass = entityClass;
 	}
 
@@ -38,8 +36,8 @@ public class GenericDaoImpl<T> implements GenericCRUD<T> {
 	}
 
 	@Override
-	public T getById(Long id) {
-		return datastore.find(entityClass, "id", id).get();
+	public T get(String key) {
+		return datastore.get(entityClass, key);
 	}
 
 	@Override
@@ -55,11 +53,6 @@ public class GenericDaoImpl<T> implements GenericCRUD<T> {
 
 	@Override
 	public Collection<T> getAll() {
-		List<? extends T> list = datastore.find(entityClass).asList();
-		List<T> entityList = new ArrayList<>();
-		for (T entity : list) {
-			entityList.add(entity);
-		}
-		return entityList;
+		return datastore.find(entityClass).asList();
 	}
 }
