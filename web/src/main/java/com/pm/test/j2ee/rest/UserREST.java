@@ -85,13 +85,6 @@ public class UserREST {
 		return userDAO.count(filters);
 	}
 
-	@GET
-	@Path("/login")
-	@Produces(MediaType.APPLICATION_JSON)
-	public User getByLogin(@QueryParam("login") String login) {
-		return userDAO.getByLogin(login);
-	}
-
 	private Map<String, String> createFilters(String login, String email, String firstName, String lastName) {
 		Map<String, String> filters = new HashMap<>();
 		if (StringUtils.isNotBlank(login))
