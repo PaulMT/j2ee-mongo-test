@@ -1,9 +1,7 @@
-package com.pm.test.j2ee.dao.impl;
+package com.pm.test.j2ee.dao.morphia;
 
 import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
@@ -12,12 +10,12 @@ import org.mongodb.morphia.dao.BasicDAO;
 import org.mongodb.morphia.query.Query;
 
 import com.mongodb.MongoClient;
+import com.pm.test.j2ee.dao.GenericDAO;
 import com.pm.test.j2ee.models.MongoEntity;
-import com.pm.test.j2ee.services.GenericDAO;
 
-public class MorphiaGenericDaoImpl<T extends MongoEntity> extends BasicDAO<T, String> implements GenericDAO<T> {
+public class GenericDaoImpl<T extends MongoEntity> extends BasicDAO<T, String> implements GenericDAO<T> {
 
-	public MorphiaGenericDaoImpl(Class<T> entityClass) throws UnknownHostException {
+	public GenericDaoImpl(Class<T> entityClass) throws UnknownHostException {
 		super(entityClass, new MongoClient(DB_HOST, DB_PORT), new Morphia(), DB_NAME);
 	}
 
@@ -49,33 +47,21 @@ public class MorphiaGenericDaoImpl<T extends MongoEntity> extends BasicDAO<T, St
 	}
 
 	@Override
-	public Collection<T> get(Map<String, String> filters, Integer offset, Integer limit, String orderBy,
-			OrderType orderType) {
-		Query<T> query = createQuery(filters);
-
-		if (limit != null)
-			query.limit(limit);
-		if (offset != null)
-			query.offset(offset);
-
-		if (StringUtils.isNotBlank(orderBy))
-			query.order(OrderType.DESC.equals(orderType) ? "-" + orderBy : orderBy);
-
+	public Collection<T> get(Integer offset, Integer limit, String orderBy, OrderType orderType) {
+		Query<T> query = createQuery(offset, limit, orderBy, orderType);
 		return query.asList();
 	}
 
-	@Override
-	public long count(Map<String, String> filters) {
-		Query<T> query = createQuery(filters);
-		return query.countAll();
-	}
-
-	private Query<T> createQuery(Map<String, String> filters) {
+	protected Query<T> createQuery(Integer offset, Integer limit, String orderBy, OrderType orderType) {
 		Query<T> query = createQuery();
 
-		if (filters != null && !filters.isEmpty())
-			for (Entry<String, String> filter : filters.entrySet())
-				query.and(query.criteria(filter.getKey()).containsIgnoreCase(filter.getValue()));
+		if (offset != null)
+			query.offset(offset);
+		if (limit != null)
+			query.limit(limit);
+
+		if (StringUtils.isNotBlank(orderBy))
+			query.order(OrderType.DESC.equals(orderType) ? "-" + orderBy : orderBy);
 
 		return query;
 	}

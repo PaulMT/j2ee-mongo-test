@@ -1,7 +1,6 @@
-package com.pm.test.j2ee.services;
+package com.pm.test.j2ee.dao;
 
 import java.util.Collection;
-import java.util.Map;
 
 public interface GenericDAO<T> {
 
@@ -17,13 +16,11 @@ public interface GenericDAO<T> {
 
 	long count();
 
-	long count(Map<String, String> filters);
-
 	T get(String key);
 
 	Collection<T> get();
 
-	Collection<T> get(Map<String, String> filters, Integer offset, Integer limit, String orderBy, OrderType orderType);
+	Collection<T> get(Integer offset, Integer limit, String orderBy, OrderType orderType);
 
 	public enum OrderType {
 		ASC,

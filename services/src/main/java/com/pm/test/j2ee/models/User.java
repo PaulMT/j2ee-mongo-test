@@ -1,10 +1,13 @@
 package com.pm.test.j2ee.models;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Reference;
 
 @Entity("users")
 @XmlRootElement
@@ -17,6 +20,9 @@ public class User extends MongoEntity {
 	private String email;
 	private String firstName;
 	private String lastName;
+
+	@Reference
+	private List<Group> groups;
 
 	public String getLogin() {
 		return login;
@@ -58,13 +64,21 @@ public class User extends MongoEntity {
 		this.lastName = lastName;
 	}
 
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + ((groups == null) ? 0 : groups.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -75,7 +89,7 @@ public class User extends MongoEntity {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -90,10 +104,10 @@ public class User extends MongoEntity {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (key == null) {
-			if (other.key != null)
+		if (groups == null) {
+			if (other.groups != null)
 				return false;
-		} else if (!key.equals(other.key))
+		} else if (!groups.equals(other.groups))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
@@ -115,7 +129,7 @@ public class User extends MongoEntity {
 
 	@Override
 	public String toString() {
-		return "User [uid=" + key + ", login=" + login + ", email=" + email + ", firstName=" + firstName
-				+ ", lastName=" + lastName + "]";
+		return "User [uid=" + key + ", login=" + login + ", password=" + password + ", email=" + email + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", groups=" + groups + "]";
 	}
 }

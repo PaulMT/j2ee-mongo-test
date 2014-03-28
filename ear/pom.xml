@@ -52,4 +52,60 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>it</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>integration-tests</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+								<phase>integration-test</phase>
+							</execution>
+							<execution>
+								<id>verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<configuration>
+							
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-jboss</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-exploded</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>stop-jboss</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

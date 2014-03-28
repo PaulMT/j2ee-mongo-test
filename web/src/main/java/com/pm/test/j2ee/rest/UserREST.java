@@ -20,9 +20,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.pm.test.j2ee.dao.GenericDAO.OrderType;
 import com.pm.test.j2ee.dao.UserDAO;
 import com.pm.test.j2ee.models.User;
-import com.pm.test.j2ee.services.GenericDAO.OrderType;
 
 @Path("/user")
 @ApplicationScoped
@@ -83,6 +83,13 @@ public class UserREST {
 
 		Map<String, String> filters = createFilters(login, email, firstName, lastName);
 		return userDAO.count(filters);
+	}
+
+	@GET
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getByLogin(@QueryParam("login") String login) {
+		return userDAO.getByLogin(login);
 	}
 
 	private Map<String, String> createFilters(String login, String email, String firstName, String lastName) {
