@@ -7,5 +7,6 @@ import com.pm.test.j2ee.services.GenericCRUD;
 
 @Local
 public interface UserDAO extends GenericCRUD<User> {
-
+	
+	User getByLogin(String login);
 }
