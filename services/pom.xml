@@ -11,6 +11,10 @@
 	<version>${project.parent.version}</version>
 	<packaging>ejb</packaging>
 
+	<properties>
+		<manifes.dependencies>org.apache.commons.lang</manifes.dependencies>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>
@@ -21,5 +25,11 @@
 			<groupId>org.mongodb.morphia</groupId>
 			<artifactId>morphia</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
 	</dependencies>
+
 </project>

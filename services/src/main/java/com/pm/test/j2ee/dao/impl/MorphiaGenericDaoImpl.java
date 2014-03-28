@@ -5,26 +5,30 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.dao.BasicDAO;
-
 import org.mongodb.morphia.query.Query;
 
 import com.mongodb.MongoClient;
-import com.pm.test.j2ee.services.GenericCRUD;
+import com.pm.test.j2ee.models.MongoEntity;
+import com.pm.test.j2ee.services.GenericDAO;
 
-public class GenericDaoImpl<T> extends BasicDAO<T, String> implements GenericCRUD<T> {
-	public static final String DB_HOST = "localhost";
-	public static final int DB_PORT = 27017;
-	public static final String DB_NAME = "test";
+public class MorphiaGenericDaoImpl<T extends MongoEntity> extends BasicDAO<T, String> implements GenericDAO<T> {
 
-	public GenericDaoImpl(Class<T> entityClass) throws UnknownHostException {
+	public MorphiaGenericDaoImpl(Class<T> entityClass) throws UnknownHostException {
 		super(entityClass, new MongoClient(DB_HOST, DB_PORT), new Morphia(), DB_NAME);
 	}
 
 	@Override
-	public T saveOrUpdate(T entity) {
+	public T create(T entity) {
+		save(entity);
+		return entity;
+	}
+
+	@Override
+	public T update(T entity) {
 		save(entity);
 		return entity;
 	}
@@ -45,13 +49,17 @@ public class GenericDaoImpl<T> extends BasicDAO<T, String> implements GenericCRU
 	}
 
 	@Override
-	public Collection<T> get(Map<String, String> filters, Integer offset, Integer limit) {
+	public Collection<T> get(Map<String, String> filters, Integer offset, Integer limit, String orderBy,
+			OrderType orderType) {
 		Query<T> query = createQuery(filters);
 
 		if (limit != null)
 			query.limit(limit);
 		if (offset != null)
 			query.offset(offset);
+
+		if (StringUtils.isNotBlank(orderBy))
+			query.order(OrderType.DESC.equals(orderType) ? "-" + orderBy : orderBy);
 
 		return query.asList();
 	}

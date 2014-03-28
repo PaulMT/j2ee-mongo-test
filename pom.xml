@@ -79,6 +79,22 @@
 					<artifactId>maven-ejb-plugin</artifactId>
 					<configuration>
 						<ejbVersion>${ejb.version}</ejbVersion>
+						<archive>
+							<manifestEntries>
+								<Dependencies>${manifes.dependencies}</Dependencies>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Dependencies>${manifes.dependencies}</Dependencies>
+							</manifestEntries>
+						</archive>
 					</configuration>
 				</plugin>
 			</plugins>
