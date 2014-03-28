@@ -2,37 +2,21 @@ package com.pm.test.j2ee.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
 @Entity("users")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User {
+public class User extends MongoEntity {
 	public static final String XML_NS = "http://j2ee.pm.com/user";
 
-	@Id
-	@XmlTransient
-	private ObjectId key;
 	private String login;
 	private String password;
 	private String email;
 	private String firstName;
 	private String lastName;
-
-	@XmlElement(name = "uid")
-	public String getUid() {
-		return key.toString();
-	}
-
-	public void setUid(String uid) {
-		this.key = new ObjectId(uid);
-	}
 
 	public String getLogin() {
 		return login;

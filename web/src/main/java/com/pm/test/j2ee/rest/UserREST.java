@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.pm.test.j2ee.dao.UserDAO;
 import com.pm.test.j2ee.models.User;
+import com.pm.test.j2ee.services.GenericDAO.OrderType;
 
 @Path("/user")
 @ApplicationScoped
@@ -34,14 +35,14 @@ public class UserREST {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User create(User user) {
-		return userDAO.saveOrUpdate(user);
+		return userDAO.create(user);
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User update(User user) {
-		return userDAO.saveOrUpdate(user);
+		return userDAO.update(user);
 	}
 
 	@DELETE
@@ -68,10 +69,11 @@ public class UserREST {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<User> get(@QueryParam("login") String login, @QueryParam("email") String email,
 			@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName,
-			@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) {
+			@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit,
+			@QueryParam("orderBy") String orderBy, @QueryParam("orderType") OrderType orderType) {
 
 		Map<String, String> filters = createFilters(login, email, firstName, lastName);
-		return userDAO.get(filters, offset, limit);
+		return userDAO.get(filters, offset, limit, orderBy, orderType);
 	}
 
 	@OPTIONS
@@ -95,5 +97,4 @@ public class UserREST {
 			filters.put("lastName", lastName);
 		return filters;
 	}
-
 }

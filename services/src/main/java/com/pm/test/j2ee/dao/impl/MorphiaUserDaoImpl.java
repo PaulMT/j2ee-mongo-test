@@ -8,9 +8,9 @@ import com.pm.test.j2ee.dao.UserDAO;
 import com.pm.test.j2ee.models.User;
 
 @Singleton
-public class UserDaoImpl extends GenericDaoImpl<User> implements UserDAO {
+public class MorphiaUserDaoImpl extends MorphiaGenericDaoImpl<User> implements UserDAO {
 
-	public UserDaoImpl() throws UnknownHostException {
+	public MorphiaUserDaoImpl() throws UnknownHostException {
 		super(User.class);
 	}
 }
