@@ -11,6 +11,10 @@
 	<version>${project.parent.version}</version>
 	<packaging>war</packaging>
 
+	<properties>
+		<manifes.dependencies>org.apache.commons.lang</manifes.dependencies>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.pm.test.j2ee</groupId>
@@ -29,19 +33,4 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Dependencies>org.apache.commons.lang</Dependencies>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
